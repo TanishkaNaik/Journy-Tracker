@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Learning Dashboard — Track Your AI Engineering Journey</title>
+  <meta name="description" content="Track your AI, Machine Learning, and Data Science learning progress. Monitor topics, manage goals, and visualize your journey." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ===== App Shell ===== -->
+<div class="app-layout">
+
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__logo">🧠</div>
+      <span class="sidebar__title">AI Dashboard</span>
+    </div>
+
+    <nav class="sidebar__nav">
+      <div class="sidebar__nav-label">Main</div>
+      <a class="nav-item active" data-page="dashboard" href="#">
+        <span class="nav-item__icon">🏠</span> Dashboard
+      </a>
+
+      <div class="sidebar__nav-label">Learning Paths</div>
+      <a class="nav-item" data-page="python" href="#">
+        <span class="nav-item__icon">🐍</span> Python
+      </a>
+      <a class="nav-item" data-page="numpy" href="#">
+        <span class="nav-item__icon">🔢</span> NumPy
+      </a>
+      <a class="nav-item" data-page="pandas" href="#">
+        <span class="nav-item__icon">🐼</span> Pandas
+      </a>
+      <a class="nav-item" data-page="dataviz" href="#">
+        <span class="nav-item__icon">📊</span> Data Visualization
+      </a>
+      <a class="nav-item" data-page="ml" href="#">
+        <span class="nav-item__icon">🤖</span> Machine Learning
+      </a>
+      <a class="nav-item" data-page="dl" href="#">
+        <span class="nav-item__icon">🧠</span> Deep Learning
+      </a>
+      <a class="nav-item" data-page="databases" href="#">
+        <span class="nav-item__icon">🗄️</span> Databases
+      </a>
+
+      <div class="sidebar__nav-label">Workspace</div>
+      <a class="nav-item" data-page="projects" href="#">
+        <span class="nav-item__icon">🚀</span> AI Projects
+      </a>
+      <a class="nav-item" data-page="settings" href="#">
+        <span class="nav-item__icon">⚙️</span> Settings
+      </a>
+    </nav>
+
+    <div class="sidebar__profile">
+      <div class="sidebar__profile-card" data-page="profile" id="sidebarProfileBtn">
+        <div class="profile-avatar">TN</div>
+        <div class="profile-info">
+          <div class="profile-info__name">Tanishka Naik</div>
+          <div class="profile-info__role">AI Engineer Student</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main-content">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="topbar__hamburger" id="menuBtn" aria-label="Open sidebar">☰</button>
+      <div class="topbar__search">
+        <span class="topbar__search-icon">🔍</span>
+        <input type="text" placeholder="Search topics, projects..." />
+      </div>
+      <div class="topbar__actions">
+        <button class="topbar__btn" id="addGoalBtn" title="Add Learning Goal">➕</button>
+        <button class="topbar__btn" title="Notifications">
+          🔔 <span class="badge">3</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD PAGE ============ -->
+    <section class="dashboard-page page active" id="page-dashboard">
+
+      <!-- Welcome -->
+      <div class="welcome animate-in">
+        <h1 class="welcome__heading">Welcome back, Tanishka! <span class="wave">👋</span></h1>
+        <p class="welcome__sub">Continue your AI engineering journey and keep building your skills.</p>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid animate-in animate-delay-1">
+        <div class="stat-card">
+          <div class="stat-card__header">
+            <div class="stat-card__icon">📈</div>
+            <span class="stat-card__label">Overall Progress</span>
+          </div>
+          <div class="stat-card__value" id="overallPctText">68%</div>
+          <div class="stat-card__extra">+5% from last week</div>
+          <div class="stat-card__progress">
+            <div class="stat-card__progress-fill" id="overallProgressBar" style="width:0%"></div>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__header">
+            <div class="stat-card__icon">📚</div>
+            <span class="stat-card__label">Topics Completed</span>
+          </div>
+          <div class="stat-card__value" id="topicsCompletedText">42 / 65</div>
+          <div class="stat-card__extra">7 topics this week</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__header">
+            <div class="stat-card__icon">🔥</div>
+            <span class="stat-card__label">Learning Streak</span>
+          </div>
+          <div class="stat-card__value">12 Days</div>
+          <div class="stat-card__extra">Personal best: 18 days</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card__header">
+            <div class="stat-card__icon">🚀</div>
+            <span class="stat-card__label">Projects Completed</span>
+          </div>
+          <div class="stat-card__value" id="projectsCompletedText">6</div>
+          <div class="stat-card__extra">2 projects in progress</div>
+        </div>
+      </div>
+
+      <!-- Two-col: Roadmap + Right Column -->
+      <div class="content-grid animate-in animate-delay-2">
+
+        <!-- Left: Roadmap -->
+        <div class="card">
+          <div class="card__header">
+            <h2 class="card__title">🗺️ AI Engineering Roadmap</h2>
+            <button class="card__action" id="toggleRoadmapEdit">Edit Topics</button>
+          </div>
+          <div id="roadmapContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display:flex;flex-direction:column;gap:24px;">
+
+          <!-- Currently Learning -->
+          <div class="card current-learning">
+            <div class="current-learning__badge">
+              <span class="pulse"></span> Currently Learning
+            </div>
+            <h3 class="current-learning__title">Machine Learning Fundamentals</h3>
+            <div class="current-learning__progress-row">
+              <div class="current-learning__progress-bar">
+                <div class="current-learning__progress-fill" style="width:0%" id="currentProgressFill"></div>
+              </div>
+              <span class="current-learning__pct" id="currentProgressPct">45%</span>
+            </div>
+            <div class="current-learning__topics" id="currentTopics">
+              <!-- Rendered by JS -->
+            </div>
+            <button class="btn btn--primary">Continue Learning →</button>
+          </div>
+
+          <!-- Today's Tasks -->
+          <div class="card">
+            <div class="card__header">
+              <h2 class="card__title">✅ Today's Tasks</h2>
+              <span class="card__action" id="taskCountLabel">2/5 done</span>
+            </div>
+            <div id="taskList">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="task-add">
+              <input type="text" placeholder="Add a new task..." id="newTaskInput" />
+              <button id="addTaskBtn">+</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Weekly Activity Chart -->
+      <div class="card animate-in animate-delay-3" style="margin-bottom:32px">
+        <div class="card__header">
+          <h2 class="card__title">📊 Weekly Learning Activity</h2>
+          <button class="card__action" id="randomizeChartBtn">Refresh Data</button>
+        </div>
+        <div class="chart-container">
+          <canvas id="weeklyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Recommended Next Steps -->
+      <div class="animate-in animate-delay-4">
+        <div class="section-header">
+          <h2 class="section-title">💡 Recommended Next Steps</h2>
+        </div>
+        <div class="next-steps-grid">
+          <div class="step-card">
+            <div class="step-card__icon">📚</div>
+            <h3 class="step-card__title">Learn</h3>
+            <p class="step-card__desc">Start Classification Algorithms and understand decision boundaries.</p>
+            <button class="btn btn--primary btn--sm">Start Learning →</button>
+          </div>
+          <div class="step-card">
+            <div class="step-card__icon">💻</div>
+            <h3 class="step-card__title">Practice</h3>
+            <p class="step-card__desc">Complete 10 NumPy problems to strengthen your data skills.</p>
+            <button class="btn btn--outline btn--sm">Practice Now →</button>
+          </div>
+          <div class="step-card">
+            <div class="step-card__icon">🚀</div>
+            <h3 class="step-card__title">Build</h3>
+            <p class="step-card__desc">Create a Machine Learning mini project with real-world data.</p>
+            <button class="btn btn--outline btn--sm">Start Building →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Projects -->
+      <div class="animate-in animate-delay-5">
+        <div class="section-header">
+          <h2 class="section-title">🚀 AI Projects</h2>
+          <button class="btn btn--outline btn--sm" id="addProjectBtn">+ New Project</button>
+        </div>
+        <div class="projects-grid" id="projectsGrid">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ TOPIC DETAIL PAGE (reused for Python, NumPy etc) ============ -->
+    <section class="dashboard-page page" id="page-topic-detail">
+      <div class="welcome animate-in">
+        <h1 class="welcome__heading" id="topicDetailTitle">Python</h1>
+        <p class="welcome__sub" id="topicDetailSub">Track your progress in this learning path.</p>
+      </div>
+      <div class="stats-grid animate-in animate-delay-1">
+        <div class="stat-card">
+          <div class="stat-card__header">
+            <div class="stat-card__icon">📈</div>
+            <span class="stat-card__label">Completion</span>
+          </div>
+          <div class="stat-card__value" id="topicDetailPct">90%</div>
+          <div class="stat-card__progress">
+            <div class="stat-card__progress-fill" id="topicDetailBar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card animate-in animate-delay-2">
+        <div class="card__header">
+          <h2 class="card__title">Sub-Topics</h2>
+        </div>
+        <div id="topicSubList">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS PAGE ============ -->
+    <section class="dashboard-page page" id="page-projects">
+      <div class="welcome animate-in">
+        <h1 class="welcome__heading">🚀 AI Projects</h1>
+        <p class="welcome__sub">Build real-world projects to solidify your AI skills.</p>
+      </div>
+      <div class="animate-in animate-delay-1">
+        <div class="section-header">
+          <h2 class="section-title">All Projects</h2>
+          <button class="btn btn--primary btn--sm" id="addProjectBtn2">+ New Project</button>
+        </div>
+        <div class="projects-grid" id="projectsGridFull">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROFILE PAGE ============ -->
+    <section class="dashboard-page page" id="page-profile">
+      <div class="welcome animate-in">
+        <h1 class="welcome__heading">👤 Profile</h1>
+      </div>
+      <div class="profile-page__card animate-in animate-delay-1">
+        <div class="profile-page__avatar">TN</div>
+        <div>
+          <h2 class="profile-page__name" id="profileName">Tanishka Naik</h2>
+          <p class="profile-page__role" id="profileRole">Aspiring AI / Data Science Engineer</p>
+          <div class="profile-page__skills" id="profileSkills">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+      <div class="card animate-in animate-delay-2">
+        <div class="card__header">
+          <h2 class="card__title">Edit Profile</h2>
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label style="font-size:.78rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px">Name</label>
+          <input id="profileNameInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:.85rem;outline:none" value="Tanishka Naik" />
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label style="font-size:.78rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px">Title</label>
+          <input id="profileRoleInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:.85rem;outline:none" value="Aspiring AI / Data Science Engineer" />
+        </div>
+        <div class="form-group" style="margin-bottom:14px">
+          <label style="font-size:.78rem;font-weight:600;color:var(--text-secondary);display:block;margin-bottom:6px">Skills (comma separated)</label>
+          <input id="profileSkillsInput" style="width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-size:.85rem;outline:none" value="Python, NumPy, Pandas, Machine Learning" />
+        </div>
+        <button class="btn btn--primary" id="saveProfileBtn">Save Changes</button>
+      </div>
+    </section>
+
+    <!-- ============ SETTINGS PAGE ============ -->
+    <section class="dashboard-page page" id="page-settings">
+      <div class="welcome animate-in">
+        <h1 class="welcome__heading">⚙️ Settings</h1>
+        <p class="welcome__sub">Customize your dashboard experience.</p>
+      </div>
+
+      <div class="settings-group animate-in animate-delay-1">
+        <h3 class="settings-group__title">Appearance</h3>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Dark Mode</div>
+            <div class="settings-row__desc">Use dark theme (currently active)</div>
+          </div>
+          <button class="toggle on" id="toggleDarkMode"></button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Compact Sidebar</div>
+            <div class="settings-row__desc">Minimize the sidebar for more screen space</div>
+          </div>
+          <button class="toggle" id="toggleCompact"></button>
+        </div>
+      </div>
+
+      <div class="settings-group animate-in animate-delay-2">
+        <h3 class="settings-group__title">Notifications</h3>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Daily Reminders</div>
+            <div class="settings-row__desc">Get a daily learning reminder notification</div>
+          </div>
+          <button class="toggle on" id="toggleReminders"></button>
+        </div>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Weekly Report</div>
+            <div class="settings-row__desc">Receive weekly progress summary</div>
+          </div>
+          <button class="toggle on" id="toggleWeekly"></button>
+        </div>
+      </div>
+
+      <div class="settings-group animate-in animate-delay-3">
+        <h3 class="settings-group__title">Data</h3>
+        <div class="settings-row">
+          <div>
+            <div class="settings-row__label">Reset Progress</div>
+            <div class="settings-row__desc">Clear all learning progress data</div>
+          </div>
+          <button class="btn btn--outline btn--sm" id="resetProgressBtn" style="border-color:var(--accent-red);color:var(--accent-red)">Reset</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== ADD GOAL MODAL ===== -->
+<div class="modal-overlay" id="goalModal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 class="modal__title">Add Learning Goal</h3>
+      <button class="modal__close" id="closeGoalModal">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Goal Title</label>
+      <input type="text" id="goalTitleInput" placeholder="e.g. Master Classification" />
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <select id="goalCategorySelect">
+        <option>Python</option>
+        <option>NumPy</option>
+        <option>Pandas</option>
+        <option>Data Visualization</option>
+        <option>Machine Learning</option>
+        <option>Deep Learning</option>
+        <option>Generative AI</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Target Date</label>
+      <input type="date" id="goalDateInput" />
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--outline" id="cancelGoalBtn">Cancel</button>
+      <button class="btn btn--primary" id="saveGoalBtn">Add Goal</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADD PROJECT MODAL ===== -->
+<div class="modal-overlay" id="projectModal">
+  <div class="modal">
+    <div class="modal__header">
+      <h3 class="modal__title">Add New Project</h3>
+      <button class="modal__close" id="closeProjectModal">✕</button>
+    </div>
+    <div class="form-group">
+      <label>Project Name</label>
+      <input type="text" id="projectNameInput" placeholder="e.g. Sentiment Analysis" />
+    </div>
+    <div class="form-group">
+      <label>Difficulty</label>
+      <select id="projectDifficultySelect">
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Technologies (comma separated)</label>
+      <input type="text" id="projectTechInput" placeholder="Python, Scikit-learn" />
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--outline" id="cancelProjectBtn">Cancel</button>
+      <button class="btn btn--primary" id="saveProjectBtn">Add Project</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
